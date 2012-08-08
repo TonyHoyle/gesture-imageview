@@ -436,7 +436,6 @@ public class GestureImageView extends ImageView  {
 	public void setPosition(float x, float y) {
 		this.x = x;
 		this.y = y;
-		Log.d("GestureImageView","Position = " + x + "," + y);
 	}
 
 	public void redraw() {
