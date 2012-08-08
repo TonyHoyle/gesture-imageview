@@ -194,7 +194,7 @@ public class GestureImageView extends ImageView  {
 			}
 
 			scaleAdjust = startingScale;
-
+			
 			this.centerX = (float) measuredWidth / 2.0f;
 			this.centerY = (float) measuredHeight / 2.0f;
 			
@@ -202,14 +202,18 @@ public class GestureImageView extends ImageView  {
 				x = centerX;
 			}
 			else {
-				x = startX;
+				float xmin = (imageWidth / 2) * scaleAdjust;
+				float xmax = ((-imageWidth / 2) * scaleAdjust) + measuredWidth;
+				x = Math.max(xmax, Math.min(xmin, ((imageWidth / 2 - startX) * scaleAdjust) + centerX));
 			}
 
 			if(startY == null) {
 				y = centerY;
 			}
 			else {
-				y = startY;
+				float ymin = (imageHeight / 2) * scaleAdjust;
+				float ymax = ((-imageHeight / 2) * scaleAdjust) + measuredHeight;
+				y = Math.max(ymax, Math.min(ymin, ((imageHeight / 2 - startY) * scaleAdjust) + centerY));
 			}	
 
 			gestureImageViewTouchListener = new GestureImageViewTouchListener(this, measuredWidth, measuredHeight);
@@ -432,6 +436,7 @@ public class GestureImageView extends ImageView  {
 	public void setPosition(float x, float y) {
 		this.x = x;
 		this.y = y;
+		Log.d("GestureImageView","Position = " + x + "," + y);
 	}
 
 	public void redraw() {
