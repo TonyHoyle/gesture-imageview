@@ -27,6 +27,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.Matrix;
+import android.graphics.PointF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Drawable.Callback;
@@ -736,5 +737,17 @@ public class GestureImageView extends ImageView  {
 	
 	public int getDeviceOrientation() {
 		return deviceOrientation;
+	}
+	
+	public PointF getImageCoordinates(float x, float y) {
+		int imageWidth = getImageWidth();
+		int imageHeight = getImageHeight();
+
+		PointF r = new PointF();
+	
+		r.x = ((imageWidth * scaleAdjust) / 2 - this.x + x) / scaleAdjust;
+		r.y = ((imageHeight *scaleAdjust) / 2 - this.y + y) / scaleAdjust;
+		
+		return r;
 	}
 }

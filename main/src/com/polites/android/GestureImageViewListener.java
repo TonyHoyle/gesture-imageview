@@ -27,4 +27,5 @@ public interface GestureImageViewListener {
 	
 	public void onPosition(float x, float y);
 	
+	public void onClick(float x, float y);
 }

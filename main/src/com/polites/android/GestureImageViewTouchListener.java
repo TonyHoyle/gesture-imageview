@@ -148,6 +148,9 @@ public class GestureImageViewTouchListener implements OnTouchListener {
 			}
 		});
 		
+		flingDetector = new GestureDetector(image.getContext(), flingListener);
+		imageListener = image.getGestureImageViewListener();
+				
 		tapDetector = new GestureDetector(image.getContext(), new SimpleOnGestureListener() {
 			@Override
 			public boolean onDoubleTap(MotionEvent e) {
@@ -160,17 +163,17 @@ public class GestureImageViewTouchListener implements OnTouchListener {
 				if(!inZoom) {
 					if(onClickListener != null) {
 						onClickListener.onClick(image);
-						return true;
 					}
+					if(imageListener != null) {
+						imageListener.onClick(e.getX(), e.getY());
+					}
+					return true;
 				}
 
 				return false;
 			}
 		});
-		
-		flingDetector = new GestureDetector(image.getContext(), flingListener);
-		imageListener = image.getGestureImageViewListener();
-		
+				
 		calculateBoundaries();
 	}
 	
