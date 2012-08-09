@@ -18,6 +18,7 @@ package com.polites.android;
 import java.io.InputStream;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
+
 import android.content.Context;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -28,7 +29,9 @@ import android.graphics.ColorFilter;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Drawable.Callback;
 import android.net.Uri;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -245,7 +248,7 @@ public class GestureImageView extends ImageView  {
 					return gestureImageViewTouchListener.onTouch(v, event);
 				}
 			});	
-
+			
 			layout = true;
 		}
 	}
@@ -377,8 +380,28 @@ public class GestureImageView extends ImageView  {
 			if(colorFilter != null) {
 				this.drawable.setColorFilter(colorFilter);
 			}
+			
+			drawable.setCallback(new Callback() {
+				
+				Handler mHandler = new Handler();
+
+				@Override
+				public void invalidateDrawable(Drawable who) {
+					invalidate(who.getBounds());
+				}
+
+				@Override
+				public void scheduleDrawable(Drawable who, Runnable what, long when) {
+				    mHandler.postAtTime(what, when);
+				}
+
+				@Override
+				public void unscheduleDrawable(Drawable who, Runnable what) {
+					mHandler.removeCallbacks(what, who);
+				}
+			});
 		}
-		
+
 		if(!layout) {
 			requestLayout();
 			redraw();
