@@ -387,7 +387,8 @@ public class GestureImageView extends ImageView  {
 
 				@Override
 				public void invalidateDrawable(Drawable who) {
-					invalidate(who.getBounds());
+					//invalidate(who.getBounds());
+					postInvalidate();
 				}
 
 				@Override
